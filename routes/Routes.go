@@ -8,6 +8,6 @@ import (
 func InitializeRoutes(app *fiber.App) {
 	api := app.Group("/companies")
 
-	api.get("")
+	//api.get("")
 
 }

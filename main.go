@@ -2,10 +2,9 @@ package main
 
 import (
 	"log"
-
-	"github.com/gofiber/fiber"
-
+	// control "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/controllers"
 	myDatabase "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/db"
+	handler "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/handlers"
 )
 
 func main() {
@@ -16,16 +15,24 @@ func main() {
 		return
 	}
 
-	conn := myDatabase.GetDB() //get database connection
+	handler.LoadData("q1_catalog.csv")
+	// conn := myDatabase.GetDB() //get database connection
 
-	defer conn.Close()
+	// defer conn.Close()
 
-	app := fiber.New()
+	//app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Hello, World 👋!")
-	})
+	// company := models.Company{
+	// 	Name:    "tesju2",
+	// 	Zipcode: "22245",
+	// 	Website: "",
+	// }
 
-	app.Listen(3000)
+	// comp, isThere := control.Index(company)
+	// if isThere == false {
+	// 	control.Store(comp)
+	// }
+
+	//app.Listen(3000)
 
 }

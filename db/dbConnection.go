@@ -15,6 +15,12 @@ var db *gorm.DB
 
 //URIDatabase serve para formatar a string para conexão com o banco de dados
 func URIDatabase() string {
+
+	// username := handler.getVar("USER")
+	// password := handler.getVar("PASSWORD")
+	// dbName := handler.getVar("DBNAME")
+	// dbPort := handler.getVar("PORT")
+	// dbHost.getVarndler.getVar("HOST")
 	e := godotenv.Load() //Load .env file
 	if e != nil {
 		fmt.Print(e)

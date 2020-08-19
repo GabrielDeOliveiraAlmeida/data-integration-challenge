@@ -16,9 +16,9 @@ dropdb:
 	docker exec -it postgres971224 dropdb companiesDb
 
 migrateup:
-	migrate -path src/database/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path src/database/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose down
 
 .PHONY: postgres createdb dropdb migrateup migratedown 
