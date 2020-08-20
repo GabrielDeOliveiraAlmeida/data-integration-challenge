@@ -49,7 +49,7 @@ func LoadCompanyFromCSV(file string) {
 			}
 
 			//Checar se já existe, se não, salvaar no banco de dados
-			comp, isThere := control.Index(company)
+			comp, isThere := control.Index(company, true)
 			if isThere == false {
 				control.Store(comp)
 			}
