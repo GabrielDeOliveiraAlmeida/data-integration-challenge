@@ -1,16 +1,16 @@
 package routes
 
 import (
-	control "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/controllers"
+	handler "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/handlers"
 	"github.com/gofiber/fiber"
 )
 
 //SetupRoutes inicializar as routas da aplicação
 func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api/companies")
-	api.Get("/", control.GetAll)
-	api.Get("/:id", control.GetByID)
-	api.Post("/new", control.NewCompany)
-	api.Post("/upload", control.Upload)
-	api.Delete("/:id", control.Delete)
+	api.Get("/", handler.GetAll)
+	api.Get("/:id", handler.GetByID)
+	api.Post("/new", handler.NewCompany)
+	api.Post("/upload", handler.Upload)
+	api.Delete("/:id", handler.Delete)
 }

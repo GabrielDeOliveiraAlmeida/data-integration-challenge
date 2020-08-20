@@ -17,11 +17,10 @@ func main() {
 		return
 	}
 
-	handler.LoadData("q1_catalog.csv")
+	handler.LoadData("./assets/", "q1_catalog.csv")
 
 	app := fiber.New()
 
-	c.Set("Content-Type", "application/json")
 	route.SetupRoutes(app)
 
 	app.Listen(3333)

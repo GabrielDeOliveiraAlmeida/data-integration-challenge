@@ -1,15 +1,17 @@
-package controllers
+package handlers
 
 import (
+	"os"
 	"strconv"
 
+	control "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/controllers"
 	model "github.com/GabrielDeOliveiraAlmeida/data-integration-challenge/models"
 	"github.com/gofiber/fiber"
 )
 
 //GetAll - listar todas as companhias
 func GetAll(c *fiber.Ctx) {
-	companies := IndexAll()
+	companies := control.IndexAll()
 	c.JSON(companies)
 }
 
@@ -20,7 +22,7 @@ func GetByID(c *fiber.Ctx) {
 	company.ID, _ = strconv.Atoi(id)
 	company.Name = ""
 	company.Zipcode = ""
-	comp, isFound := Index(company, true)
+	comp, isFound := control.Index(company, true)
 
 	c.Set("Content-Type", "application/json")
 
@@ -44,7 +46,20 @@ func NewCompany(c *fiber.Ctx) {
 
 //Upload - Armazenar várias companhias
 func Upload(c *fiber.Ctx) {
+	file, err := c.FormFile("file")
 
+	if err != nil {
+		c.Status(400)
+
+		return
+	}
+
+	tempName := "./assets/temp/"
+	c.SaveFile(file, tempName+file.Filename)
+	LoadData(tempName, file.Filename)
+
+	os.Remove(tempName + file.Filename)
+	GetAll(c)
 }
 
 //Delete uma companhia
