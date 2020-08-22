@@ -84,3 +84,66 @@ Output example:
 - :x: **Do not** start a Pull Request to this project.
 
 Have fun!
+
+
+
+## Setup local development
+
+### Install tools
+
+- [Docker desktop](https://www.docker.com/products/docker-desktop)
+- [Golang](https://golang.org/)
+- [Homebrew](https://brew.sh/)
+- [Migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+
+    ```bash
+    brew install golang-migrate
+    ```
+
+- [Sqlc](https://github.com/kyleconroy/sqlc#installation)
+
+    ```bash
+    brew install golang-migrate
+    ```
+
+### Setup infrastructure
+
+- Start postgres container:
+
+    ```bash
+    make postgres
+    ```
+
+- Create simple_bank database:
+
+    ```bash
+    make createdb
+    ```
+
+- Run db migration:
+
+    ```bash
+    make migrateup
+    ```
+
+### How to run
+
+- Run 
+    ```bash
+    make start
+    ```
+- If API running you can see in http://localhost:3333/
+
+- Run test:
+
+    ```bash
+    make test
+
+### API Rotes
+
+- GET: http://localhost:3333/companies/all 
+- GET (Id): http://localhost:3333/companies/:id
+-    
+- POST: http://localhost:3333/companies/upload
+- 
+- GET with parameters name and zip:http://localhost:3333/companies?name={NAME}&zipcode={ZIPCODE}  `exemple: http://localhost:3333/api/v1/companies?name=CORRECTIONS&zipcode=94002`
