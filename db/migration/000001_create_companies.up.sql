@@ -1,6 +1,6 @@
 create table companies (
   "id" bigserial PRIMARY KEY,
-  "name" varchar NOT NULL,
+  "company_name" varchar NOT NULL,
   "zipcode" varchar(5) NOT NULL,
   "website" varchar,
   "created_at" timestamptz NOT NULL DEFAULT (now()),

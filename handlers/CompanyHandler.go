@@ -15,26 +15,51 @@ func GetAll(c *fiber.Ctx) {
 	c.JSON(companies)
 }
 
+//GetCompany - pegar companhia que está nos parametros
+func GetCompany(c *fiber.Ctx) {
+
+	var company model.Company
+	company.ID = 0
+	company.CompanyName = c.Query("name")
+	company.Zipcode = c.Query("zip")
+
+	comp, isFound := control.Index(company, false)
+
+	c.Set("Content-Type", "application/json")
+
+	if isFound {
+		c.Status(404)
+	} else {
+
+		c.Status(200).JSON(map[string]interface{}{
+			"ID":          strconv.Itoa(comp.ID),
+			"CompanyName": comp.CompanyName,
+			"Zipcode":     comp.Zipcode,
+			"Website":     comp.Website,
+		})
+	}
+}
+
 //GetByID - Retornar apenas uma compnhia do banco de dados
 func GetByID(c *fiber.Ctx) {
 	var company model.Company
 	id := c.Params("id")
 	company.ID, _ = strconv.Atoi(id)
-	company.Name = ""
+	company.CompanyName = ""
 	company.Zipcode = ""
-	comp, isFound := control.Index(company, true)
+	comp, notFound := control.Index(company, true)
 
 	c.Set("Content-Type", "application/json")
 
-	if isFound {
-		c.Status(200).JSON(map[string]interface{}{
-			"ID":      strconv.Itoa(comp.ID),
-			"Name":    comp.Name,
-			"Zipcode": comp.Zipcode,
-			"Website": comp.Website,
-		})
-	} else {
+	if notFound {
 		c.Status(404)
+	} else {
+		c.Status(200).JSON(map[string]interface{}{
+			"ID":          strconv.Itoa(comp.ID),
+			"CompanyName": comp.CompanyName,
+			"Zipcode":     comp.Zipcode,
+			"Website":     comp.Website,
+		})
 	}
 
 }

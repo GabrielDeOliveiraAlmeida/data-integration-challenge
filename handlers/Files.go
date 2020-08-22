@@ -51,9 +51,9 @@ func LoadCompanyFromCSV(file string) {
 			}
 			//Modelo da tabela do banco
 			company := models.Company{
-				Name:    name,
-				Zipcode: zipcode,
-				Website: website,
+				CompanyName: name,
+				Zipcode:     zipcode,
+				Website:     website,
 			}
 
 			//Checar se já existe, se sim, Update, se não, salvaar no banco de dados
