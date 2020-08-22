@@ -100,12 +100,6 @@ Have fun!
     brew install golang-migrate
     ```
 
-- [Sqlc](https://github.com/kyleconroy/sqlc#installation)
-
-    ```bash
-    brew install golang-migrate
-    ```
-
 ### Setup infrastructure
 
 - Start postgres container:
@@ -114,13 +108,13 @@ Have fun!
     make postgres
     ```
 
-- Create simple_bank database:
+- Create companies database:
 
     ```bash
     make createdb
     ```
 
-- Run db migration:
+- Run database migration:
 
     ```bash
     make migrateup
@@ -132,12 +126,7 @@ Have fun!
     ```bash
     make start
     ```
-- If API running you can see in http://localhost:3333/
-
-- Run test:
-
-    ```bash
-    make test
+`API running you can see in http://localhost:3333/`
 
 ### API Rotes
 
