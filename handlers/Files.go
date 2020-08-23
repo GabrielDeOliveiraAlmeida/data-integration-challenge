@@ -57,13 +57,15 @@ func LoadCompanyFromCSV(file string) {
 			}
 
 			//Checar se já existe, se sim, Update, se não, salvaar no banco de dados
-			comp, isThere := control.Index(company, true)
-			if isThere {
+			comp, err := control.Index(company, true)
+
+			if err {
+
 				if website == "" {
-					control.Store(comp)
+					control.Store(company)
 				}
-			} else if website != "" {
-				company.ID = comp.ID
+			} else if website != "" && len(comp) > 0 {
+				company.ID = comp[0].ID
 				control.Update(company)
 			}
 

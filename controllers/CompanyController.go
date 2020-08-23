@@ -26,7 +26,7 @@ func IndexAll() []model.Company {
 }
 
 //Index busca companhia pelo name e zipcode no banco de dados
-func Index(company model.Company, fullName bool) (model.Company, bool) {
+func Index(company model.Company, fullName bool) ([]model.Company, bool) {
 	conn := myDatabase.GetDB()
 
 	var stmt string
@@ -40,25 +40,24 @@ func Index(company model.Company, fullName bool) (model.Company, bool) {
 			stmt = "company_name LIKE ?  "
 			company.CompanyName = "%" + company.CompanyName + "%"
 		}
-		stmt = stmt + " AND zipcode = ? "
+		if company.Zipcode != "" {
+			stmt = stmt + " AND zipcode = ? "
+		}
 	}
-	var companyInDb model.Company
-	notFound := false
+	var companyInDb []model.Company
+	err := true
 	if company.ID != 0 { //Se possui ID, buscar pelo ID, apenas
-		if conn.Where(stmt, strconv.Itoa(company.ID)).First(&companyInDb).RecordNotFound() {
-			notFound = true
-		}
-	} else { //buscar pelo nome e zipcode
-		if conn.Where(stmt, strings.ToUpper(company.CompanyName), AddChar(company.Zipcode, "0", 5)).First(&companyInDb).RecordNotFound() {
-			notFound = true
-		}
-
+		err = conn.Where(stmt, strconv.Itoa(company.ID)).First(&companyInDb).RecordNotFound()
+	} else if company.Zipcode == "" { //buscar pelo nome
+		err = conn.Where(stmt, strings.ToUpper(company.CompanyName)).Find(&companyInDb).RecordNotFound()
+	} else { // buscar pelo nome e zipcode
+		err = conn.Where(stmt, strings.ToUpper(company.CompanyName), AddChar(company.Zipcode, "0", 5)).Find(&companyInDb).RecordNotFound()
 	}
 
-	if notFound { //se não foi encontrado
-		return company, notFound
+	if err == false {
+		return []model.Company{}, true
 	}
-	return companyInDb, notFound //foi encontrado
+	return companyInDb, false //foi encontrado
 }
 
 //Store armazena a companhia no banco de dados

@@ -1,3 +1,5 @@
+include .env
+export 
 #Challenge Makefile
 start:
 	go run main.go
@@ -7,18 +9,18 @@ check:
 
 #setup:
 postgres:
-	docker run --name postgres971224 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:12-alpine
+	docker run --name postgres971224 -p $(PORT):$(PORT) -e POSTGRES_USER=$(USER) -e POSTGRES_PASSWORD=$(PASSWORD) -d postgres:12-alpine
 
 createdb:
-	docker exec -it postgres971224 createdb --username=root --owner=root companiesDb
+	docker exec -it postgres971224 createdb --username=$(USER) --owner=$(USER) $(DBNAME)
 
 dropdb:
-	docker exec -it postgres971224 dropdb companiesDb
+	docker exec -it postgres971224 dropdb $(DBNAME)
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose up
+	migrate -path db/migration -database $(MY_MIGRATE_DATABASE) -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:secret@192.168.99.100:5432/companiesDb?sslmode=disable" -verbose down
+	migrate -path db/migration -database $(MY_MIGRATE_DATABASE) -verbose down
 
 .PHONY: postgres createdb dropdb migrateup migratedown 

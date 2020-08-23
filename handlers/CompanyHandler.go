@@ -23,20 +23,19 @@ func GetCompany(c *fiber.Ctx) {
 	company.CompanyName = c.Query("name")
 	company.Zipcode = c.Query("zip")
 
-	comp, isFound := control.Index(company, false)
-
+	comp, err := control.Index(company, false)
 	c.Set("Content-Type", "application/json")
 
-	if isFound {
+	if err {
 		c.Status(404)
 	} else {
-
-		c.Status(200).JSON(map[string]interface{}{
-			"ID":          strconv.Itoa(comp.ID),
-			"CompanyName": comp.CompanyName,
-			"Zipcode":     comp.Zipcode,
-			"Website":     comp.Website,
-		})
+		// c.Status(200).JSON(map[string]interface{}{
+		// 	"ID":          strconv.Itoa(comp.ID),
+		// 	"CompanyName": comp.CompanyName,
+		// 	"Zipcode":     comp.Zipcode,
+		// 	"Website":     comp.Website,
+		// })
+		c.Status(200).JSON(comp)
 	}
 }
 
@@ -47,25 +46,22 @@ func GetByID(c *fiber.Ctx) {
 	company.ID, _ = strconv.Atoi(id)
 	company.CompanyName = ""
 	company.Zipcode = ""
-	comp, notFound := control.Index(company, true)
+	comp, err := control.Index(company, true)
 
 	c.Set("Content-Type", "application/json")
 
-	if notFound {
+	if err {
 		c.Status(404)
 	} else {
-		c.Status(200).JSON(map[string]interface{}{
-			"ID":          strconv.Itoa(comp.ID),
-			"CompanyName": comp.CompanyName,
-			"Zipcode":     comp.Zipcode,
-			"Website":     comp.Website,
-		})
+		if len(comp) > 0 {
+			c.Status(200).JSON(map[string]interface{}{
+				"ID":          strconv.Itoa(comp[0].ID),
+				"CompanyName": comp[0].CompanyName,
+				"Zipcode":     comp[0].Zipcode,
+				"Website":     comp[0].Website,
+			})
+		}
 	}
-
-}
-
-//NewCompany - Armezenar uma nova companhia
-func NewCompany(c *fiber.Ctx) {
 
 }
 
@@ -83,9 +79,4 @@ func Upload(c *fiber.Ctx) {
 
 	os.Remove(tempName + file.Filename)
 	GetAll(c)
-}
-
-//Delete uma companhia
-func Delete(c *fiber.Ctx) {
-
 }
