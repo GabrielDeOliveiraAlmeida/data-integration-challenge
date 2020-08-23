@@ -75,10 +75,8 @@ func Upload(c *fiber.Ctx) {
 
 	if err != nil {
 		c.Status(400)
-
 		return
 	}
-
 	tempName := "./assets/temp/"
 	c.SaveFile(file, tempName+file.Filename)
 	LoadData(tempName, file.Filename)

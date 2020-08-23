@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Yawoen Site</title>
+</head>
+  <body>    
+    <div class="container">
+      <a href="/api/companies?name=CORRECT&zip=94002">GET /companies?name=CORRECT&zip=94002</a><br />
+      <a href="/api/companies/1">GET /companies/:id</a><br />
+      <a href="/api/companies/all">GET /companies/all</a><br />
+      
+      
+      <form method="POST" action="" enctype="multipart/form-data" id="formulario">
+        <div>
+          <input type="file" id="file" name="file" /> 
+          <input type="submit" value="Submit"/>
+        </div>
+      </form>
+    </div>
+
+      <script>
+
+        $("#formulario").submit(function(evt){
+          evt.preventDefault();
+          var formData = new FormData(this);
+          console.log(formData);
+          $.ajax({
+            url: 'api/companies/upload',
+            type: 'POST',
+            async: false,
+            data: formData,
+            enctype: 'multipart/form-data',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+              if (data) {
+                alert('file uploaded');    
+              } else {
+                alert( 'file not uploaded');
+              }
+            },
+            error: function(){
+              alert('errou foi tudo');
+            },
+            
+          })
+        })
+    </script>
+  </body>
+</html>

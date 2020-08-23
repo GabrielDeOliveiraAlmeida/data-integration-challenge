@@ -20,7 +20,7 @@ func main() {
 	handler.LoadData("./assets/", "q1_catalog.csv")
 
 	app := fiber.New()
-
+	app.Static("/", "./views/")
 	route.SetupRoutes(app)
 
 	app.Listen(3333)
