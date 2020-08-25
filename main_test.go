@@ -16,6 +16,12 @@ import (
 
 var conn *gorm.DB
 
+//
+//
+//FALHEI EM FAZER OS TESTES, NÃO FUNCIONA, NÃO CONSEGUIR REALIZAR OS TESTES DA API.
+//
+//
+
 func TestDatabase(t *testing.T) {
 	err := myDatabase.DatabaseConnection("CompaniesDb")
 	assert.NoError(t, err)
