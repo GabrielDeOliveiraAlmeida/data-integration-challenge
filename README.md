@@ -131,11 +131,9 @@ Have fun!
 ### API Rotes
 
 - GET: http://localhost:3333/companies/all 
-- GET (Id): http://localhost:3333/companies/:id
--    
+- GET (Id): http://localhost:3333/companies/:id   
 - POST: http://localhost:3333/companies/upload
-- 
-- GET with parameters name and zip:http://localhost:3333/companies?name={NAME}&zipcode={ZIPCODE}  `exemple: http://localhost:3333/api/v1/companies?name=CORRECTIONS&zipcode=94002`
+- GET with parameters:http://localhost:3333/companies?name={NAME}&zipcode={ZIPCODE}  `exemple: http://localhost:3333/api/v1/companies?name=CORRECTIONS&zipcode=94002`
 
 ### Notes
 
