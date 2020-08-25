@@ -1,5 +1,12 @@
 include .env
 export 
+
+setup:
+#if needed to setup the enviroment before starting it
+	go get -u github.com/gofiber/fiber
+	go get github.com/joho/godotenv
+	go get -u github.com/jinzhu/gorm
+
 #Challenge Makefile
 start:
 	go run main.go

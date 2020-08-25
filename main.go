@@ -17,8 +17,9 @@ func main() {
 		return
 	}
 
-	handler.LoadData("./assets/", "q1_catalog.csv")
-
+	if handler.LoadData("./assets/", "q1_catalog.csv") != nil {
+		log.Fatalln("erro ao abrir arquivo")
+	}
 	app := fiber.New()
 	app.Static("/", "./views/")
 	route.SetupRoutes(app)

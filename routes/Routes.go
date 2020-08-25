@@ -13,4 +13,5 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/all", handler.GetAll)
 	api.Get("/:id", handler.GetByID)
 	api.Post("/upload", handler.Upload)
+
 }

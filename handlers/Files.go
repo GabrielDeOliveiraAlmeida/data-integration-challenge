@@ -11,20 +11,21 @@ import (
 )
 
 //LoadData , ler o arquivo e carregar tudo ao banco de daodos
-func LoadData(path string, filename string) {
+func LoadData(path string, filename string) error {
 	file := path + filename
-
-	LoadCompanyFromCSV(file)
+	err := LoadCompanyFromCSV(file)
+	return err
 
 }
 
 //LoadCompanyFromCSV deve carregar o ler o arquivo e carregar no banco de dados
-func LoadCompanyFromCSV(file string) {
+func LoadCompanyFromCSV(file string) error {
 	fmt.Println("Abrir arquivo: " + file)
 	csvFile, err := os.Open(file)
 	if err != nil {
 		fmt.Println("Erro ao abrir o arquivo ")
 		log.Fatalln(err)
+		return err
 	}
 
 	defer csvFile.Close()
@@ -36,6 +37,7 @@ func LoadCompanyFromCSV(file string) {
 	csvLines, err := csvReader.ReadAll()
 	if err != nil {
 		log.Fatalln(err)
+		return err
 	}
 
 	//Linha a linha do arquivo e enviar ao banco de dados
@@ -57,18 +59,18 @@ func LoadCompanyFromCSV(file string) {
 			}
 
 			//Checar se já existe, se sim, Update, se não, salvaar no banco de dados
-			comp, err := control.Index(company, true)
+			comp := control.Index(company, true)
 
-			if err {
-
+			if comp == nil {
 				if website == "" {
 					control.Store(company)
 				}
-			} else if website != "" && len(comp) > 0 {
+			} else if website != "" {
 				company.ID = comp[0].ID
 				control.Update(company)
 			}
 
 		}
 	}
+	return nil
 }

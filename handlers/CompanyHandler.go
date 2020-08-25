@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
@@ -23,10 +24,10 @@ func GetCompany(c *fiber.Ctx) {
 	company.CompanyName = c.Query("name")
 	company.Zipcode = c.Query("zip")
 
-	comp, err := control.Index(company, false)
+	comp := control.Index(company, false)
 	c.Set("Content-Type", "application/json")
 
-	if err {
+	if comp == nil {
 		c.Status(404)
 	} else {
 		// c.Status(200).JSON(map[string]interface{}{
@@ -46,11 +47,12 @@ func GetByID(c *fiber.Ctx) {
 	company.ID, _ = strconv.Atoi(id)
 	company.CompanyName = ""
 	company.Zipcode = ""
-	comp, err := control.Index(company, true)
+	fmt.Println(company)
+	comp := control.Index(company, true)
 
 	c.Set("Content-Type", "application/json")
 
-	if err {
+	if comp == nil {
 		c.Status(404)
 	} else {
 		if len(comp) > 0 {
